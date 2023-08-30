@@ -8,8 +8,8 @@ from uuid import uuid4
 
 
 class Cache:
-    def __int__(self):
-        self._redis = redis.Redis()
+    def __init__(self):
+        self._redis = redis.Redis(host='192.168.184.131', port=6379, db=0)
         self._redis.flushdb()
 
     def store(self, data: Union[str, bytes, int, float]) -> str:
