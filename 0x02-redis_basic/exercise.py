@@ -46,6 +46,26 @@ def call_history(method: Callable) -> Callable:
     return wrapper
 
 
+def replay(method: Callable):
+    """
+        Displays the history of a function calls
+        :param method:
+        :return:
+    """
+    input_key = f'{method.__qualname__}:inputs'
+    output_key = f'{method.__qualname__}:outputs'
+    redis_instance = redis.Redis()
+
+    number_of_calls = redis_instance.get(method.__qualname__)
+    input_history = redis_instance.lrange(input_key, 0, -1)
+    output_history = redis_instance.lrange(output_key, 0, -1)
+
+    print('Cache.store was called {} times:'.format(number_of_calls.decode('utf-8')))
+    for input_data, output_data in zip(input_history, output_history):
+        print(f"{method.__qualname__}"
+              f"(*{input_data.decode('utf-8')}) ->{output_data.decode('utf-8')}")
+
+
 class Cache:
     """
         Cache class
