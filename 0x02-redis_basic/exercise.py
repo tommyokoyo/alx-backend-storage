@@ -63,10 +63,12 @@ def replay(method: Callable):
     input_history = redis_instance.lrange(input_key, 0, -1)
     output_history = redis_instance.lrange(output_key, 0, -1)
 
-    print('Cache.store was called {} times:'.format(number_of_calls.decode('utf-8')))
+    print('Cache.store was called {} times:'.format(
+        number_of_calls.decode('utf-8')))
     for input_data, output_data in zip(input_history, output_history):
         print(f"{method.__qualname__}"
-              f"(*{input_data.decode('utf-8')}) ->{output_data.decode('utf-8')}")
+              f"(*{input_data.decode('utf-8')}) -> "
+              f"{output_data.decode('utf-8')}")
 
 
 class Cache:
@@ -93,7 +95,8 @@ class Cache:
         self._redis.set(key, data)
         return key
 
-    def get(self, key: str, fn: Callable = None) -> Union[str, bytes, int, float]:
+    def get(self, key: str, fn: Callable = None)\
+            -> Union[str, bytes, int, float]:
         """
             Reading from redis and recovering data
             :param key:
