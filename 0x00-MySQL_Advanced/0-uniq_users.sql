@@ -1,4 +1,4 @@
---Script that creates TABLE Users--
+--Script that creates TABLE Users
 -- script can be executed on any database
 CREATE TABLE IF NOT EXISTS `users`
     `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
